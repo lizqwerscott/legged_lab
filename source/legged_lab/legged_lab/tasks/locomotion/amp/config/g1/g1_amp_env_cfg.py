@@ -36,7 +36,7 @@ KEY_BODY_NAMES = [
     "right_wrist_yaw_link",
     "left_shoulder_roll_link",
     "right_shoulder_roll_link",
-]
+] # if changed here and symmetry is enabled, remember to update amp.mdp.symmetry.g1 as well!
 ANIMATION_TERM_NAME = "animation"
 AMP_NUM_STEPS = 10
 
@@ -64,30 +64,30 @@ class G1AmpRewards():
         params={"asset_cfg": SceneEntityCfg("robot", joint_names=[".*_ankle_pitch_joint", ".*_ankle_roll_joint"])},
     )
     
-    joint_deviation_hip = RewTerm(
-        func=mdp.joint_deviation_l1,
-        weight=-0.1,
-        params={"asset_cfg": SceneEntityCfg("robot", joint_names=[".*_hip_yaw_joint", ".*_hip_roll_joint"])},
-    )
-    joint_deviation_arms = RewTerm(
-        func=mdp.joint_deviation_l1,
-        weight=-0.03,
-        params={
-            "asset_cfg": SceneEntityCfg(
-                "robot",
-                joint_names=[
-                    ".*_shoulder_.*_joint",
-                    ".*_elbow_joint",
-                    ".*_wrist_.*_joint",
-                ],
-            )
-        },
-    )
-    joint_deviation_waist = RewTerm(
-        func=mdp.joint_deviation_l1,
-        weight=-0.1,
-        params={"asset_cfg": SceneEntityCfg("robot", joint_names="waist_.*_joint")},
-    )
+    # joint_deviation_hip = RewTerm(
+    #     func=mdp.joint_deviation_l1,
+    #     weight=-0.1,
+    #     params={"asset_cfg": SceneEntityCfg("robot", joint_names=[".*_hip_yaw_joint", ".*_hip_roll_joint"])},
+    # )
+    # joint_deviation_arms = RewTerm(
+    #     func=mdp.joint_deviation_l1,
+    #     weight=-0.03,
+    #     params={
+    #         "asset_cfg": SceneEntityCfg(
+    #             "robot",
+    #             joint_names=[
+    #                 ".*_shoulder_.*_joint",
+    #                 ".*_elbow_joint",
+    #                 ".*_wrist_.*_joint",
+    #             ],
+    #         )
+    #     },
+    # )
+    # joint_deviation_waist = RewTerm(
+    #     func=mdp.joint_deviation_l1,
+    #     weight=-0.1,
+    #     params={"asset_cfg": SceneEntityCfg("robot", joint_names="waist_.*_joint")},
+    # )
     
     feet_air_time = RewTerm(
         func=mdp.feet_air_time_positive_biped,
@@ -132,10 +132,10 @@ class G1AmpEnvCfg(LocomotionAmpEnvCfg):
             "B11_-__Walk_turn_left_135_stageii": 1.0,
             "B13_-__Walk_turn_right_90_stageii": 1.0,
             "B14_-__Walk_turn_right_45_t2_stageii": 1.0,
-            "B15_-__Walk_turn_around_stageii": 1.0,
+            "B15_-__Walk_turn_around_stageii": 5.0,
             "B22_-__side_step_left_stageii": 1.0,
             "B23_-__side_step_right_stageii": 1.0,
-            "B4_-_Stand_to_Walk_backwards_stageii": 1.0,
+            "B4_-_Stand_to_Walk_backwards_stageii": 5.0,
             "B9_-__Walk_turn_left_90_stageii": 1.0,
         }
 
@@ -204,8 +204,8 @@ class G1AmpEnvCfg(LocomotionAmpEnvCfg):
         # ------------------------------------------------------
         # Commands
         # ------------------------------------------------------
-        self.commands.base_velocity.ranges.lin_vel_x = (-0.5, 1.5)
-        self.commands.base_velocity.ranges.lin_vel_y = (-0.5, 0.5)
+        self.commands.base_velocity.ranges.lin_vel_x = (-1.0, 1.5)
+        self.commands.base_velocity.ranges.lin_vel_y = (-1.0, 1.0)
         self.commands.base_velocity.ranges.ang_vel_z = (-0.5, 0.5)
         self.commands.base_velocity.ranges.heading = (-math.pi, math.pi)
         
