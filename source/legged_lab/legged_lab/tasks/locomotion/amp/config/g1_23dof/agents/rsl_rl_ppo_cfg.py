@@ -5,7 +5,7 @@ from isaaclab.utils import configclass
 from isaaclab_rl.rsl_rl import RslRlOnPolicyRunnerCfg, RslRlPpoActorCriticCfg, RslRlSymmetryCfg
 from legged_lab.rsl_rl import RslRlPpoAmpAlgorithmCfg, RslRlAmpCfg, RslRlPpoActorCriticConv2dCfg
 from legged_lab import LEGGED_LAB_ROOT_DIR
-from legged_lab.tasks.locomotion.amp.mdp.symmetry import g1
+from legged_lab.tasks.locomotion.amp.mdp.symmetry import g1_23dof
 
 @configclass
 class G1RslRlOnPolicyRunnerAmpCfg(RslRlOnPolicyRunnerCfg):
@@ -69,7 +69,7 @@ class G1RslRlOnPolicyRunnerAmpCfg(RslRlOnPolicyRunnerCfg):
             loss_type="LSGAN"
         ),
         symmetry_cfg=RslRlSymmetryCfg(
-            use_data_augmentation=True, data_augmentation_func=g1.compute_symmetric_states,
+            use_data_augmentation=True, data_augmentation_func=g1_23dof.compute_symmetric_states,
             use_mirror_loss=True, mirror_loss_coeff=0.1,
         )
     )
