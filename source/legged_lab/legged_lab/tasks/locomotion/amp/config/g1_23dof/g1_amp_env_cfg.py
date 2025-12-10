@@ -32,8 +32,8 @@ from legged_lab.assets.unitree import UNITREE_G1_23DOF_CFG
 KEY_BODY_NAMES = [
     "left_ankle_roll_link", 
     "right_ankle_roll_link",
-    "left_wrist_roll_link",
-    "right_wrist_roll_link",
+    "left_wrist_roll_rubber_hand",
+    "right_wrist_roll_rubber_hand",
     "left_shoulder_roll_link",
     "right_shoulder_roll_link",
 ] # if changed here and symmetry is enabled, remember to update amp.mdp.symmetry.g1 as well!

@@ -56,7 +56,7 @@ lab_dof_names:
 lab_key_body_names:
   - left_ankle_roll_link
   - right_ankle_roll_link
-  - left_wrist_roll_link
-  - right_wrist_roll_link
+  - left_wrist_roll_rubber_hand
+  - right_wrist_roll_rubber_hand
   - left_shoulder_roll_link
   - right_shoulder_roll_link
