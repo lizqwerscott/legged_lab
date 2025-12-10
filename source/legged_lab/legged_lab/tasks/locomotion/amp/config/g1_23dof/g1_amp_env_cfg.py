@@ -119,7 +119,7 @@ class G1AmpEnvCfg(LocomotionAmpEnvCfg):
     def __post_init__(self):
         super().__post_init__()
         
-        self.scene.robot = UNITREE_G1_29DOF_CFG.replace(prim_path="{ENV_REGEX_NS}/Robot")
+        self.scene.robot = UNITREE_G1_23DOF_CFG.replace(prim_path="{ENV_REGEX_NS}/Robot")
 
         # ------------------------------------------------------
         # motion data
