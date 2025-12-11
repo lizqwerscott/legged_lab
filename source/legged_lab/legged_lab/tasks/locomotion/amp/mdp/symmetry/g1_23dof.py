@@ -1,4 +1,4 @@
-"""Functions to specify the symmetry in the observation and action space for Unitree G1 29dof."""
+"""Functions to specify the symmetry in the observation and action space for Unitree G1 23dof."""
 
 from __future__ import annotations
 
@@ -94,7 +94,7 @@ def _transform_policy_obs_left_right(
     # copy observation tensor
     obs = obs.clone()
     device = obs.device
-    joint_num = 29  # G1 29dof
+    joint_num = 23  # G1 23dof
     key_body_num = 6
 
     # policy_obs_term_dim = env.observation_manager.group_obs_term_dim["policy"]
@@ -223,7 +223,7 @@ def _switch_g1_23dof_joints_left_right(joint_data: torch.Tensor) -> torch.Tensor
     right_indices = [1, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22]
 
     # Indices for roll and yaw joints that need sign flipping
-    roll_indices = [3, 4, 15, 16, 17, 18]
+    roll_indices = [3, 4, 15, 16, 17]
     yaw_indices = [5, 6, 17, 18]
 
     # Copy non-symmetric joints first (waist joints)
