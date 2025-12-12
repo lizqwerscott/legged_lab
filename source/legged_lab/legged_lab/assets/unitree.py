@@ -15,6 +15,25 @@ class UnitreeArticulationCfg(ArticulationCfg):
     soft_joint_pos_limit_factor = 0.9
 
 
+@configclass
+class UnitreeUsdFileCfg(sim_utils.UsdFileCfg):
+    activate_contact_sensors: bool = True
+    rigid_props = sim_utils.RigidBodyPropertiesCfg(
+        disable_gravity=False,
+        retain_accelerations=False,
+        linear_damping=0.0,
+        angular_damping=0.0,
+        max_linear_velocity=1000.0,
+        max_angular_velocity=1000.0,
+        max_depenetration_velocity=1.0,
+    )
+    articulation_props = sim_utils.ArticulationRootPropertiesCfg(
+        enabled_self_collisions=True,
+        solver_position_iteration_count=8,
+        solver_velocity_iteration_count=4,
+    )
+
+
 UNITREE_G1_29DOF_CFG = UnitreeArticulationCfg(
     spawn=sim_utils.UsdFileCfg(
         usd_path=f"{LEGGED_LAB_ROOT_DIR}/data/Robots/Unitree/g1_29dof/usd/g1_29dof_rev_1_0/g1_29dof_rev_1_0.usd",
@@ -143,29 +162,16 @@ UNITREE_G1_29DOF_CFG = UnitreeArticulationCfg(
 )
 
 UNITREE_G1_23DOF_CFG = UnitreeArticulationCfg(
-    spawn=sim_utils.UsdFileCfg(
+    # spawn=UnitreeUrdfFileCfg(
+    #     asset_path=f"{UNITREE_ROS_DIR}/robots/g1_description/g1_23dof_rev_1_0.urdf",
+    # ),
+    spawn=UnitreeUsdFileCfg(
         usd_path=f"{LEGGED_LAB_ROOT_DIR}/data/Robots/Unitree/g1_23dof/usd/g1_23dof_rev_1_0/g1_23dof_rev_1_0.usd",
-        activate_contact_sensors=True,
-        rigid_props=sim_utils.RigidBodyPropertiesCfg(
-            disable_gravity=False,
-            retain_accelerations=False,
-            linear_damping=0.0,
-            angular_damping=0.0,
-            max_linear_velocity=1000.0,
-            max_angular_velocity=1000.0,
-            max_depenetration_velocity=1.0,
-        ),
-        articulation_props=sim_utils.ArticulationRootPropertiesCfg(
-            enabled_self_collisions=True,
-            solver_position_iteration_count=8,
-            solver_velocity_iteration_count=4,
-        ),
     ),
     init_state=ArticulationCfg.InitialStateCfg(
         pos=(0.0, 0.0, 0.8),
         joint_pos={
-            "left_hip_pitch_joint": -0.1,
-            "right_hip_pitch_joint": -0.1,
+            ".*_hip_pitch_joint": -0.1,
             ".*_knee_joint": 0.3,
             ".*_ankle_pitch_joint": -0.2,
             ".*_shoulder_pitch_joint": 0.3,
@@ -179,7 +185,11 @@ UNITREE_G1_23DOF_CFG = UnitreeArticulationCfg(
     ),
     actuators={
         "N7520-14.3": ImplicitActuatorCfg(
-            joint_names_expr=[".*_hip_pitch_.*", ".*_hip_yaw_.*", "waist_yaw_joint"],
+            joint_names_expr=[
+                ".*_hip_pitch_.*",
+                ".*_hip_yaw_.*",
+                "waist_yaw_joint",
+            ],  # 5
             effort_limit_sim=88,
             velocity_limit_sim=32.0,
             stiffness={
@@ -193,7 +203,7 @@ UNITREE_G1_23DOF_CFG = UnitreeArticulationCfg(
             armature=0.01,
         ),
         "N7520-22.5": ImplicitActuatorCfg(
-            joint_names_expr=[".*_hip_roll_.*", ".*_knee_.*"],
+            joint_names_expr=[".*_hip_roll_.*", ".*_knee_.*"],  # 4
             effort_limit_sim=139,
             velocity_limit_sim=20.0,
             stiffness={
@@ -210,18 +220,20 @@ UNITREE_G1_23DOF_CFG = UnitreeArticulationCfg(
             joint_names_expr=[
                 ".*_shoulder_.*",
                 ".*_elbow_.*",
-                ".*_wrist_roll.*",
-                ".*_ankle_.*",
-            ],
+                ".*_wrist_roll_.*",
+            ],  # 10
             effort_limit_sim=25,
             velocity_limit_sim=37,
             stiffness=40.0,
-            damping={
-                ".*_shoulder_.*": 1.0,
-                ".*_elbow_.*": 1.0,
-                ".*_wrist_roll.*": 1.0,
-                ".*_ankle_.*": 2.0,
-            },
+            damping=1.0,
+            armature=0.01,
+        ),
+        "N5020-16-parallel": ImplicitActuatorCfg(
+            joint_names_expr=[".*ankle.*"],  # 4
+            effort_limit_sim=35,
+            velocity_limit_sim=30,
+            stiffness=40.0,
+            damping=2.0,
             armature=0.01,
         ),
     },
@@ -239,11 +251,15 @@ UNITREE_G1_23DOF_CFG = UnitreeArticulationCfg(
         "right_ankle_pitch_joint",
         "right_ankle_roll_joint",
         "waist_yaw_joint",
+        "",
+        "",
         "left_shoulder_pitch_joint",
         "left_shoulder_roll_joint",
         "left_shoulder_yaw_joint",
         "left_elbow_joint",
         "left_wrist_roll_joint",
+        "",
+        "",
         "right_shoulder_pitch_joint",
         "right_shoulder_roll_joint",
         "right_shoulder_yaw_joint",
