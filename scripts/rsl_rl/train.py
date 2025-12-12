@@ -85,6 +85,7 @@ from isaaclab.envs import (
     DirectMARLEnvCfg,
     DirectRLEnvCfg,
     ManagerBasedRLEnvCfg,
+    ManagerBasedRLEnv,
     multi_agent_to_single_agent,
 )
 from isaaclab.utils.dict import print_dict
@@ -98,6 +99,7 @@ from isaaclab_tasks.utils.hydra import hydra_task_config
 
 # Import extensions to set up environment tasks
 import legged_lab.tasks  # noqa: F401
+from legged_lab.utils.export_deploy_cfg_function import export_deploy_cfg
 
 # PLACEHOLDER: Extension template (do not remove this comment)
 
@@ -204,6 +206,10 @@ def main(env_cfg: ManagerBasedRLEnvCfg | DirectRLEnvCfg | DirectMARLEnvCfg, agen
     dump_yaml(os.path.join(log_dir, "params", "agent.yaml"), agent_cfg)
     # dump_pickle(os.path.join(log_dir, "params", "env.pkl"), env_cfg)
     # dump_pickle(os.path.join(log_dir, "params", "agent.pkl"), agent_cfg)
+
+    # export deployment configuration
+    if isinstance(env.unwrapped, ManagerBasedRLEnv):
+        export_deploy_cfg(env.unwrapped, log_dir)
 
     # run training
     runner.learn(num_learning_iterations=agent_cfg.max_iterations, init_at_random_ep_len=True)
