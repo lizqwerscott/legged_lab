@@ -43,7 +43,7 @@ def export_deploy_cfg(env: ManagerBasedRLEnv, log_dir):
     else:
         # Try to import from unitree_rl_lab for G1 23DOF
         try:
-            from unitree_rl_lab.assets.robots.unitree import UNITREE_G1_23DOF_CFG
+            from legged_lab.assets.unitree import UNITREE_G1_23DOF_CFG
             joint_sdk_names = UNITREE_G1_23DOF_CFG.joint_sdk_names
             joint_ids_map, _ = resolve_matching_names(asset.data.joint_names, joint_sdk_names, preserve_order=True)
         except (ImportError, AttributeError):
