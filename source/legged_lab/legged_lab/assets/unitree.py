@@ -221,19 +221,17 @@ UNITREE_G1_23DOF_CFG = UnitreeArticulationCfg(
                 ".*_shoulder_.*",
                 ".*_elbow_.*",
                 ".*_wrist_roll_.*",
+                ".*_ankle_.*",
             ],  # 10
             effort_limit_sim=25,
             velocity_limit_sim=37,
             stiffness=40.0,
-            damping=1.0,
-            armature=0.01,
-        ),
-        "N5020-16-parallel": ImplicitActuatorCfg(
-            joint_names_expr=[".*ankle.*"],  # 4
-            effort_limit_sim=35,
-            velocity_limit_sim=30,
-            stiffness=40.0,
-            damping=2.0,
+            damping={
+                ".*_shoulder_.*": 1.0,
+                ".*_elbow_.*": 1.0,
+                ".*_wrist_roll.*": 1.0,
+                ".*_ankle_.*": 2.0,
+            },
             armature=0.01,
         ),
     },
