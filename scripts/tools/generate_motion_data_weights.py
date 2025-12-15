@@ -82,8 +82,8 @@ def main():
     parser.add_argument(
         "--output",
         "-o",
-        default="weights.yaml",
-        help="Output YAML file path (default: weights.yaml)",
+        default=None,
+        help="Output YAML file path (default: <input_dir>_weights.yaml)",
     )
     parser.add_argument(
         "--default-weight",
@@ -94,6 +94,11 @@ def main():
     )
 
     args = parser.parse_args()
+
+    # If output path not provided, use input directory name with _weights.yaml suffix
+    if args.output is None:
+        input_dir_name = Path(args.input_dir).name
+        args.output = f"{input_dir_name}_weights.yaml"
 
     generate_weights(args.input_dir, args.output, args.default_weight)
 

@@ -1,5 +1,6 @@
 import os
 import math
+import json
 from dataclasses import MISSING
 
 import isaaclab.sim as sim_utils
@@ -124,41 +125,17 @@ class G1AmpEnvCfg(LocomotionAmpEnvCfg):
         # ------------------------------------------------------
         # motion data
         # ------------------------------------------------------
+        motion_data_name = "walk_and_run"
+        weight_file_name = motion_data_name + "_" + "weights.json"
+        
         self.motion_data.motion_dataset.motion_data_dir = os.path.join(
-            LEGGED_LAB_ROOT_DIR, "data", "MotionData", "g1_23dof", "amp", "walk_and_run"
+            LEGGED_LAB_ROOT_DIR, "data", "MotionData", "g1_23dof", "amp", motion_data_name
         )
-        self.motion_data.motion_dataset.motion_data_weights = {
-            "B10_-__Walk_turn_left_45_stageii": 1.0,
-            "B11_-__Walk_turn_left_135_stageii": 1.0,
-            "B13_-__Walk_turn_right_90_stageii": 1.0,
-            "B14_-__Walk_turn_right_45_t2_stageii": 1.0,
-            "B15_-__Walk_turn_around_stageii": 1.0,
-            "B22_-__side_step_left_stageii": 1.0,
-            "B23_-__side_step_right_stageii": 1.0,
-            "B4_-_Stand_to_Walk_backwards_stageii": 1.0,
-            "B9_-__Walk_turn_left_90_stageii": 1.0,
-            "C11_-_run_turn_left_90_stageii": 1.0,
-            "C12_-_run_turn_left_45_stageii": 1.0,
-            "C13_-_run_turn_left_135_stageii": 1.0,
-            "C14_-_run_turn_right_90_stageii": 1.0,
-            "C15_-_run_turn_right_45_stageii": 1.0,
-            "C16_-_run_turn_right_135_stageii": 1.0,
-            "C17_-_run_change_direction_stageii": 1.0,
-            "C1_-_stand_to_run_stageii": 1.0,
-            "C3_-_run_stageii": 1.0,
-            "C4_-_run_to_walk_a_stageii": 1.0,
-            "C5_-_walk_to_run_stageii": 1.0,
-            "C6_-_stand_to_run_backwards_stageii": 1.0,
-            "C8_-_run_backwards_to_stand_stageii": 1.0,
-            "C9_-_run_backwards_turn_run_forward_stageii": 1.0,
-            "Walk_B10_-_Walk_turn_left_45_stageii": 1.0,
-            "Walk_B13_-_Walk_turn_right_45_stageii": 1.0,
-            "Walk_B15_-_Walk_turn_around_stageii": 1.0,
-            "Walk_B16_-_Walk_turn_change_stageii": 1.0,
-            "Walk_B22_-_Side_step_left_stageii": 1.0,
-            "Walk_B23_-_Side_step_right_stageii": 1.0,
-            "Walk_B4_-_Stand_to_Walk_Back_stageii": 1.0,
-        }
+        weights_file = os.path.join(LEGGED_LAB_ROOT_DIR, "data", "MotionData", "g1_23dof", "amp", weight_file_name)
+        with open(weights_file, 'r') as f:
+            motion_data_weights = json.load(f)
+
+        self.motion_data.motion_dataset.motion_data_weights = motion_data_weights
 
         # ------------------------------------------------------
         # animation
