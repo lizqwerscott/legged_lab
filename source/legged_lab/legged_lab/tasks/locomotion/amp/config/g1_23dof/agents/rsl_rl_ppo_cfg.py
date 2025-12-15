@@ -13,7 +13,7 @@ class G1RslRlOnPolicyRunnerAmpCfg(RslRlOnPolicyRunnerCfg):
     num_steps_per_env = 24
     max_iterations = 50000
     save_interval = 200
-    experiment_name = "g1_amp"
+    experiment_name = "g1_23_amp"
     obs_groups = {
         "policy": ["policy"], 
         "critic": ["critic"], 
