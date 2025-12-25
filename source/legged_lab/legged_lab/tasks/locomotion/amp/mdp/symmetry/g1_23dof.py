@@ -98,7 +98,7 @@ def _transform_policy_obs_left_right(
     key_body_num = 6
 
     # policy_obs_term_dim = env.observation_manager.group_obs_term_dim["policy"]
-    # [(15,), (15,), (15,), (145,), (145,), (145,)]
+    # [(15,), (30,), (15,), (115,), (115,), (115,)]
     HISTORY_LEN = 5
     ANG_VEL_DIM = 3
     ROT_TAN_NORM = 6
@@ -223,7 +223,7 @@ def _switch_g1_23dof_joints_left_right(joint_data: torch.Tensor) -> torch.Tensor
     right_indices = [1, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22]
 
     # Indices for roll and yaw joints that need sign flipping
-    roll_indices = [3, 4, 15, 16, 17]
+    roll_indices = [3, 4, 15, 16]
     yaw_indices = [5, 6, 17, 18]
 
     # Copy non-symmetric joints first (waist joints)
