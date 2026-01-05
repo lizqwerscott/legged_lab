@@ -1,3 +1,4 @@
+import json
 import math
 import os
 from dataclasses import MISSING
@@ -151,7 +152,7 @@ class G1AmpEnvCfg(LocomotionAmpEnvCfg):
             LEGGED_LAB_ROOT_DIR,
             "data",
             "MotionData",
-            "g1_23dof",
+            "g1_29dof",
             "amp",
             motion_data_name,
         )
@@ -159,7 +160,7 @@ class G1AmpEnvCfg(LocomotionAmpEnvCfg):
             LEGGED_LAB_ROOT_DIR,
             "data",
             "MotionData",
-            "g1_23dof",
+            "g1_29dof",
             "amp",
             weight_file_name,
         )
