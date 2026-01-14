@@ -231,6 +231,21 @@ class G1AmpEnvCfg(LocomotionAmpEnvCfg):
         self.events.reset_from_ref.params = {
             "animation": ANIMATION_TERM_NAME,
             "height_offset": 0.1,
+            "pose_offset_range": {
+                "x": (-0.5, 0.5),
+                "y": (-0.5, 0.5),
+                "yaw": (-3.14, 3.14),
+            },
+            "velocity_offset_range": {
+                "x": (0.0, 0.0),
+                "y": (0.0, 0.0),
+                "z": (0.0, 0.0),
+                "roll": (0.0, 0.0),
+                "pitch": (0.0, 0.0),
+                "yaw": (0.0, 0.0),
+            },
+            "joint_position_offset_range": (1.0, 1.0),
+            "joint_velocity_offset_range": (-1.0, 1.0),
         }
 
         # ------------------------------------------------------

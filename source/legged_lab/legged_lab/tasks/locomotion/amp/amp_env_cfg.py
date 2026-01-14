@@ -269,11 +269,11 @@ class EventCfg:
     )
 
     reset_from_ref = EventTerm(
-        func=mdp.reset_from_ref, 
+        func=mdp.reset_from_ref_random,
         mode="reset",
         params=MISSING
     )
-
+    
     # interval
     push_robot = EventTerm(
         func=mdp.push_by_setting_velocity,
