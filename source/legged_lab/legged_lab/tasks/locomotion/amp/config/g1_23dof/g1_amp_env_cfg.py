@@ -145,7 +145,7 @@ class G1AmpEnvCfg(LocomotionAmpEnvCfg):
         # ------------------------------------------------------
         # motion data
         # ------------------------------------------------------
-        motion_data_name = "walk_forward"
+        motion_data_name = "cmu_walk_and_run"
         weight_file_name = motion_data_name + "_" + "weights.json"
 
         self.motion_data.motion_dataset.motion_data_dir = os.path.join(
