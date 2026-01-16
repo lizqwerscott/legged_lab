@@ -268,6 +268,13 @@ class EventCfg:
         params={
             "asset_cfg": SceneEntityCfg("robot", body_names=MISSING),
             "mass_distribution_params": (-1.0, 3.0),
+
+    randomize_com_positions = EventTerm(
+        func=mdp.randomize_com_positions,
+        mode="startup",
+        params={
+            "asset_cfg": SceneEntityCfg("robot", body_names=""),
+            "com_distribution_params": (-0.1, 0.1),
             "operation": "add",
         },
     )

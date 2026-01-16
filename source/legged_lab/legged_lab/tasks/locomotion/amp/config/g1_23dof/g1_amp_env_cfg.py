@@ -225,6 +225,7 @@ class G1AmpEnvCfg(LocomotionAmpEnvCfg):
         # Events
         # ------------------------------------------------------
         self.events.add_base_mass.params["asset_cfg"].body_names = "torso_link"
+        self.events.randomize_com_positions.params["asset_cfg"].body_names = ["torso_link"]
         self.events.base_external_force_torque.params["asset_cfg"].body_names = [
             "torso_link"
         ]
