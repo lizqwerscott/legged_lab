@@ -270,7 +270,11 @@ class G1AmpEnvCfg(LocomotionAmpEnvCfg):
         # ------------------------------------------------------
         # terminations
         # ------------------------------------------------------
-        self.terminations.base_contact = None
+        self.terminations.base_contact = DoneTerm(
+            func=mdp.illegal_contact,
+            params={"sensor_cfg": SceneEntityCfg("contact_forces", body_names=["torso_link"]), "threshold": 1.0},
+        )
+        
 
 
 @configclass
