@@ -81,19 +81,18 @@ class AmpSceneCfg(InteractiveSceneCfg):
 class CommandsCfg:
     """Command specifications for the MDP."""
 
-    base_velocity = mdp.UniformVelocityCommandCfg(
+    base_velocity = mdp.UniformLevelVelocityCommandCfg(
         asset_name="robot",
         resampling_time_range=(10.0, 10.0),
         rel_standing_envs=0.02,
         rel_heading_envs=1.0,
-        heading_command=True,
-        heading_control_stiffness=0.5,
+        heading_command=False,
         debug_vis=True,
-        ranges=mdp.UniformVelocityCommandCfg.Ranges(
-            lin_vel_x=(-0.1, 0.1),
-            lin_vel_y=(-0.1, 0.1),
-            ang_vel_z=(-0.1, 0.1),
-            heading=(-math.pi, math.pi),
+        ranges=mdp.UniformLevelVelocityCommandCfg.Ranges(
+            lin_vel_x=(-0.1, 0.1), lin_vel_y=(-0.1, 0.1), ang_vel_z=(-0.1, 0.1)
+        ),
+        limit_ranges=mdp.UniformLevelVelocityCommandCfg.Ranges(
+            lin_vel_x=(-0.5, 1.0), lin_vel_y=(-0.3, 0.3), ang_vel_z=(-0.2, 0.2)
         ),
     )
 
@@ -376,7 +375,9 @@ class TerminationsCfg:
 class CurriculumCfg:
     """Curriculum terms for the MDP."""
 
-    pass
+    # terrain_levels = CurrTerm(func=mdp.terrain_levels_vel)
+    lin_vel_cmd_levels = CurrTerm(mdp.lin_vel_cmd_levels)
+
 
 
 @configclass
