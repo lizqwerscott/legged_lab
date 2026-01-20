@@ -59,7 +59,7 @@ class G1AmpRewards:
     )
 
     # -- penalties
-    flat_orientation_l2 = RewTerm(func=mdp.flat_orientation_l2, weight=-1.0)
+    flat_orientation_l2 = RewTerm(func=mdp.flat_orientation_l2, weight=-5.0)
     lin_vel_z_l2 = RewTerm(func=mdp.lin_vel_z_l2, weight=-0.2)
     ang_vel_xy_l2 = RewTerm(func=mdp.ang_vel_xy_l2, weight=-0.05)
     dof_torques_l2 = RewTerm(func=mdp.joint_torques_l2, weight=-2.0e-6)
@@ -77,7 +77,7 @@ class G1AmpRewards:
 
     joint_deviation_hip = RewTerm(
         func=mdp.joint_deviation_l1,
-        weight=-0.1,
+        weight=-1,
         params={
             "asset_cfg": SceneEntityCfg(
                 "robot", joint_names=[".*_hip_yaw_joint", ".*_hip_roll_joint"]
@@ -86,7 +86,7 @@ class G1AmpRewards:
     )
     joint_deviation_arms = RewTerm(
         func=mdp.joint_deviation_l1,
-        weight=-0.05,
+        weight=-0.1,
         params={
             "asset_cfg": SceneEntityCfg(
                 "robot",
@@ -100,21 +100,21 @@ class G1AmpRewards:
     )
     joint_deviation_waist = RewTerm(
         func=mdp.joint_deviation_l1,
-        weight=-0.1,
+        weight=-1,
         params={"asset_cfg": SceneEntityCfg("robot", joint_names="waist_.*_joint")},
     )
 
-    feet_air_time = RewTerm(
-        func=mdp.feet_air_time_positive_biped,
-        weight=0.5,
-        params={
-            "command_name": "base_velocity",
-            "sensor_cfg": SceneEntityCfg(
-                "contact_forces", body_names=".*_ankle_roll_link"
-            ),
-            "threshold": 0.4,
-        },
-    )
+    # feet_air_time = RewTerm(
+    #     func=mdp.feet_air_time_positive_biped,
+    #     weight=0.5,
+    #     params={
+    #         "command_name": "base_velocity",
+    #         "sensor_cfg": SceneEntityCfg(
+    #             "contact_forces", body_names=".*_ankle_roll_link"
+    #         ),
+    #         "threshold": 0.4,
+    #     },
+    # )
     feet_slide = RewTerm(
         func=mdp.feet_slide,
         weight=-0.1,
@@ -274,7 +274,7 @@ class G1AmpEnvCfg(LocomotionAmpEnvCfg):
             func=mdp.illegal_contact,
             params={"sensor_cfg": SceneEntityCfg("contact_forces", body_names=["torso_link"]), "threshold": 1.0},
         )
-        
+
 
 
 @configclass
