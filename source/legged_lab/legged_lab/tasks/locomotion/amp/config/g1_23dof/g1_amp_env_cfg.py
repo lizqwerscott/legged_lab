@@ -264,8 +264,6 @@ class G1AmpEnvCfg(LocomotionAmpEnvCfg):
         # ------------------------------------------------------
         # Curriculum
         # ------------------------------------------------------
-        self.curriculum.lin_vel_cmd_levels = None
-        self.curriculum.ang_vel_cmd_levels = None
 
         # ------------------------------------------------------
         # terminations

@@ -391,7 +391,7 @@ class CurriculumCfg:
     """Curriculum terms for the MDP."""
 
     terrain_levels = CurrTerm(func=mdp.terrain_levels_vel)
-    lin_vel_cmd_levels = CurrTerm(mdp.lin_vel_cmd_levels)
+    lin_vel_cmd_levels_mdp = CurrTerm(mdp.lin_vel_cmd_levels_mdp)
 
 @configclass
 class MotionDataCfg:
