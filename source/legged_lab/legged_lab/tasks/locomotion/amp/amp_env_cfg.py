@@ -3,6 +3,7 @@ import torch
 from dataclasses import MISSING
 
 import isaaclab.sim as sim_utils
+import isaaclab.terrains as terrain_gen
 from isaaclab.assets import ArticulationCfg, AssetBaseCfg
 from isaaclab.envs import ManagerBasedRLEnvCfg
 from isaaclab.managers import CurriculumTermCfg as CurrTerm
@@ -29,6 +30,20 @@ from legged_lab.managers import MotionDataTermCfg as MotionDataTerm
 ##
 from isaaclab.terrains.config.rough import ROUGH_TERRAINS_CFG  # isort: skip
 
+COBBLESTONE_ROAD_CFG = terrain_gen.TerrainGeneratorCfg(
+    size=(8.0, 8.0),
+    border_width=20.0,
+    num_rows=9,
+    num_cols=21,
+    horizontal_scale=0.1,
+    vertical_scale=0.005,
+    slope_threshold=0.75,
+    difficulty_range=(0.0, 1.0),
+    use_cache=False,
+    sub_terrains={
+        "flat": terrain_gen.MeshPlaneTerrainCfg(proportion=0.5),
+    },
+)
 
 @configclass
 class AmpSceneCfg(InteractiveSceneCfg):
@@ -37,9 +52,9 @@ class AmpSceneCfg(InteractiveSceneCfg):
     # ground terrain
     terrain = TerrainImporterCfg(
         prim_path="/World/ground",
-        terrain_type="plane",
-        terrain_generator=None,
-        max_init_terrain_level=5,
+        terrain_type="generator",
+        terrain_generator=COBBLESTONE_ROAD_CFG,
+        max_init_terrain_level=COBBLESTONE_ROAD_CFG.num_rows - 1,
         collision_group=-1,
         physics_material=sim_utils.RigidBodyMaterialCfg(
             friction_combine_mode="multiply",
@@ -375,10 +390,8 @@ class TerminationsCfg:
 class CurriculumCfg:
     """Curriculum terms for the MDP."""
 
-    # terrain_levels = CurrTerm(func=mdp.terrain_levels_vel)
+    terrain_levels = CurrTerm(func=mdp.terrain_levels_vel)
     lin_vel_cmd_levels = CurrTerm(mdp.lin_vel_cmd_levels)
-
-
 
 @configclass
 class MotionDataCfg:
