@@ -59,7 +59,7 @@ class AmpSceneCfg(InteractiveSceneCfg):
         physics_material=sim_utils.RigidBodyMaterialCfg(
             friction_combine_mode="multiply",
             restitution_combine_mode="multiply",
-            static_friction=1.2,
+            static_friction=1.0,
             dynamic_friction=1.0,
         ),
         visual_material=sim_utils.MdlFileCfg(

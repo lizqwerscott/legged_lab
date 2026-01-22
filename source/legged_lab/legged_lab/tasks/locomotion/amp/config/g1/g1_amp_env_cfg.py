@@ -145,7 +145,7 @@ class G1AmpEnvCfg(LocomotionAmpEnvCfg):
         # ------------------------------------------------------
         # motion data
         # ------------------------------------------------------
-        motion_data_name = "cmu_walk"
+        motion_data_name = "cmu_walk_and_run"
         weight_file_name = motion_data_name + "_" + "weights.json"
 
         self.motion_data.motion_dataset.motion_data_dir = os.path.join(
@@ -231,6 +231,21 @@ class G1AmpEnvCfg(LocomotionAmpEnvCfg):
         self.events.reset_from_ref.params = {
             "animation": ANIMATION_TERM_NAME,
             "height_offset": 0.1,
+            "pose_offset_range": {
+                "x": (-0.5, 0.5),
+                "y": (-0.5, 0.5),
+                "yaw": (-3.14, 3.14),
+            },
+            "velocity_offset_range": {
+                "x": (0.0, 0.0),
+                "y": (0.0, 0.0),
+                "z": (0.0, 0.0),
+                "roll": (0.0, 0.0),
+                "pitch": (0.0, 0.0),
+                "yaw": (0.0, 0.0),
+            },
+            "joint_position_offset_range": (1.0, 1.0),
+            "joint_velocity_offset_range": (-1.0, 1.0),
         }
 
         # ------------------------------------------------------
@@ -240,21 +255,27 @@ class G1AmpEnvCfg(LocomotionAmpEnvCfg):
         # ------------------------------------------------------
         # Commands
         # ------------------------------------------------------
-        self.commands.base_velocity.ranges.lin_vel_x = (-0.5, 1.0)
+        self.commands.base_velocity.ranges.lin_vel_x = (-0.1, 0.1)
         self.commands.base_velocity.ranges.lin_vel_y = (-0.5, 0.5)
         self.commands.base_velocity.ranges.ang_vel_z = (-1.0, 1.0)
         self.commands.base_velocity.ranges.heading = (-math.pi, math.pi)
 
+        self.commands.base_velocity.limit_ranges.lin_vel_x = (-0.5, 3.0)
+        self.commands.base_velocity.limit_ranges.lin_vel_y = (-0.5, 0.5)
+        self.commands.base_velocity.limit_ranges.ang_vel_z = (-1.0, 1.0)
+
         # ------------------------------------------------------
         # Curriculum
         # ------------------------------------------------------
-        self.curriculum.lin_vel_cmd_levels = None
-        self.curriculum.ang_vel_cmd_levels = None
 
         # ------------------------------------------------------
         # terminations
         # ------------------------------------------------------
-        self.terminations.base_contact = None
+        self.terminations.base_contact = DoneTerm(
+            func=mdp.illegal_contact,
+            params={"sensor_cfg": SceneEntityCfg("contact_forces", body_names=["torso_link"]), "threshold": 1.0},
+        )
+
 
 
 @configclass
@@ -266,7 +287,7 @@ class G1AmpEnvCfg_PLAY(G1AmpEnvCfg):
         self.scene.num_envs = 48
         self.scene.env_spacing = 2.5
 
-        self.commands.base_velocity.ranges.lin_vel_x = (0.5, 1.0)
+        self.commands.base_velocity.ranges.lin_vel_x = (-0.5, 3.0)
         self.commands.base_velocity.ranges.lin_vel_y = (-0.5, 0.5)
         self.commands.base_velocity.ranges.ang_vel_z = (-1.0, 1.0)
         self.commands.base_velocity.ranges.heading = (0.0, 0.0)
