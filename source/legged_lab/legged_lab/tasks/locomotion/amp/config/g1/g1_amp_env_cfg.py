@@ -101,7 +101,13 @@ class G1AmpRewards:
     joint_deviation_waist = RewTerm(
         func=mdp.joint_deviation_l1,
         weight=-0.1,
-        params={"asset_cfg": SceneEntityCfg("robot", joint_names="waist_.*_joint")},
+        params={"asset_cfg": SceneEntityCfg("robot", joint_names=["waist_pitch_joint", "waist_yaw_joint"])},
+    )
+
+    joint_deviation_waist_roll = RewTerm(
+        func=mdp.joint_deviation_l1,
+        weight=-0.2,
+        params={"asset_cfg": SceneEntityCfg("robot", joint_names=["waist_roll_joint"])},
     )
 
     feet_air_time = RewTerm(
