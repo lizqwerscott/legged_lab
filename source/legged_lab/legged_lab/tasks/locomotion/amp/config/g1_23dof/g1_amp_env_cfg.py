@@ -59,7 +59,7 @@ class G1AmpRewards:
     )
 
     # -- penalties
-    flat_orientation_l2 = RewTerm(func=mdp.flat_orientation_l2, weight=-5.0)
+    flat_orientation_l2 = RewTerm(func=mdp.flat_orientation_l2, weight=-1.0)
     lin_vel_z_l2 = RewTerm(func=mdp.lin_vel_z_l2, weight=-0.2)
     ang_vel_xy_l2 = RewTerm(func=mdp.ang_vel_xy_l2, weight=-0.05)
     dof_torques_l2 = RewTerm(func=mdp.joint_torques_l2, weight=-2.0e-6)
@@ -77,7 +77,7 @@ class G1AmpRewards:
 
     joint_deviation_hip = RewTerm(
         func=mdp.joint_deviation_l1,
-        weight=-1,
+        weight=-0.1,
         params={
             "asset_cfg": SceneEntityCfg(
                 "robot", joint_names=[".*_hip_yaw_joint", ".*_hip_roll_joint"]
@@ -86,7 +86,7 @@ class G1AmpRewards:
     )
     joint_deviation_arms = RewTerm(
         func=mdp.joint_deviation_l1,
-        weight=-0.1,
+        weight=-0.05,
         params={
             "asset_cfg": SceneEntityCfg(
                 "robot",
@@ -100,21 +100,21 @@ class G1AmpRewards:
     )
     joint_deviation_waist = RewTerm(
         func=mdp.joint_deviation_l1,
-        weight=-1,
+        weight=-0.1,
         params={"asset_cfg": SceneEntityCfg("robot", joint_names="waist_.*_joint")},
     )
 
-    # feet_air_time = RewTerm(
-    #     func=mdp.feet_air_time_positive_biped,
-    #     weight=0.5,
-    #     params={
-    #         "command_name": "base_velocity",
-    #         "sensor_cfg": SceneEntityCfg(
-    #             "contact_forces", body_names=".*_ankle_roll_link"
-    #         ),
-    #         "threshold": 0.4,
-    #     },
-    # )
+    feet_air_time = RewTerm(
+        func=mdp.feet_air_time_positive_biped,
+        weight=0.5,
+        params={
+            "command_name": "base_velocity",
+            "sensor_cfg": SceneEntityCfg(
+                "contact_forces", body_names=".*_ankle_roll_link"
+            ),
+            "threshold": 0.4,
+        },
+    )
     feet_slide = RewTerm(
         func=mdp.feet_slide,
         weight=-0.1,
@@ -256,7 +256,7 @@ class G1AmpEnvCfg(LocomotionAmpEnvCfg):
         # ------------------------------------------------------
         # Commands
         # ------------------------------------------------------
-        self.commands.base_velocity.ranges.lin_vel_x = (-0.1, 0.1)
+        self.commands.base_velocity.ranges.lin_vel_x = (-0.5, 0.5)
         self.commands.base_velocity.ranges.lin_vel_y = (-0.5, 0.5)
         self.commands.base_velocity.ranges.ang_vel_z = (-1.0, 1.0)
         self.commands.base_velocity.ranges.heading = (-math.pi, math.pi)
@@ -268,7 +268,7 @@ class G1AmpEnvCfg(LocomotionAmpEnvCfg):
         # ------------------------------------------------------
         # Curriculum
         # ------------------------------------------------------
-
+        self.curriculum.terrain_levels = None
         # ------------------------------------------------------
         # terminations
         # ------------------------------------------------------
